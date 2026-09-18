@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Политика безопасности: страница может грузить ресурсы только с этих адресов.
+     Если подключите Formspree или Метрику — допишите их домены в script-src / connect-src. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://images.unsplash.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Пасека Вячеслава — мёд с протоколом анализа в каждой посылке</title>
+<meta name="robots" content="noindex, nofollow">
+
+<meta name="description" content="Натуральный мёд, соты, пыльца, перга, мази и восковые свечи с семейной пасеки на Урале. Без нагрева и купажа, протокол лабораторного анализа к каждому заказу. Доставка по России от 2 дней.">
+
+<!-- Open Graph: как ссылка выглядит при отправке в WhatsApp, Telegram, ВК -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Пасека Вячеслава">
+<meta property="og:title" content="Мёд, который можно проверить — пасека Вячеслава">
+<meta property="og:description" content="120 ульев в уральском урочище. Без нагрева и купажа, протокол лабораторного анализа в каждой посылке. Дегустационный набор в подарок к первому заказу.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1718146921295-700b969e7c78?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#b8842c">
+
+<!-- Фавикон: соты в золоте -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23fbf7ef'/%3E%3Cpath d='M16 4l10 5.8v11.6L16 27 6 21.4V9.8L16 4z' fill='none' stroke='%23b8842c' stroke-width='2'/%3E%3Cpath d='M16 10l5 2.9v5.8L16 21.6 11 18.7v-5.8L16 10z' fill='%23d9a93f'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Помечаем, что JS доступен: только тогда прячем блоки до анимации появления -->
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+/* ============ ТОКЕНЫ ============ */
+:root{
+  --bg:#fbf7ef;
+  --surface:#fffdf8;
+  --ink:#221a0e;
+  --ink-60:rgba(34,26,14,.62);
+  --ink-40:rgba(34,26,14,.42);
+  --gold:#b8842c;
+  --gold-deep:#96690f;
+  --gold-soft:#e8c877;
+  --gold-grad:linear-gradient(135deg,#d9a93f 0%,#b8842c 55%,#96690f 100%);
+  --line:rgba(150,105,15,.16);
+  --shadow-card:0 1px 2px rgba(60,42,10,.06),0 12px 32px -8px rgba(60,42,10,.14);
+  --shadow-lift:0 2px 4px rgba(60,42,10,.08),0 24px 56px -12px rgba(60,42,10,.22);
+  --r:22px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --display:'Prata',serif;
+  --body:'Manrope',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  color:var(--ink);
+  background:
+    radial-gradient(900px 700px at 92% -8%,rgba(217,169,63,.14),transparent 60%),
+    radial-gradient(700px 600px at -10% 30%,rgba(217,169,63,.07),transparent 55%),
+    linear-gradient(180deg,#fbf7ef 0%,#f4ecdd 100%);
+  font-size:16.5px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Атрибут hidden должен побеждать любые display из классов,
+   иначе скрытый блок остаётся кликабельным поверх страницы. */
+[hidden]{display:none!important}
+
+/* Видимый фокус с клавиатуры — обязателен для доступности */
+:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px;border-radius:4px}
+.btn:focus-visible{outline-offset:4px}
+details.q summary:focus-visible{outline-offset:-4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+
+h1,h2,h3{font-family:var(--display);font-weight:400}
+h1{font-size:clamp(2.4rem,1.5rem + 4.1vw,4.5rem);line-height:1.07;letter-spacing:-.015em}
+h2{font-size:clamp(1.85rem,1.35rem + 2.2vw,2.9rem);line-height:1.14;letter-spacing:-.01em}
+h3{font-size:1.35rem;line-height:1.25}
+.gold-i{color:var(--gold);font-style:italic}
+
+.label{
+  font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);display:inline-flex;align-items:center;gap:10px;
+}
+.label::before{content:'';width:34px;height:2px;background:var(--gold-grad)}
+.lead{font-size:1.1rem;color:var(--ink-60);max-width:58ch}
+
+/* ============ НАВИГАЦИЯ ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  background:rgba(251,247,239,.72);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s var(--ease);
+}
+.nav.scrolled{box-shadow:0 8px 30px -12px rgba(60,42,10,.15)}
+.nav-in{max-width:1180px;margin:0 auto;padding:15px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:1.18rem}
+.logo svg{flex:none}
+.logo small{display:block;font-family:var(--body);font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.nav-links{display:flex;gap:30px;font-size:.92rem;font-weight:600}
+.nav-links a{position:relative;padding:4px 0;color:var(--ink-60);transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--gold);transition:width .25s var(--ease)}
+.nav-links a:hover::after{width:100%}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 28px;border-radius:100px;font-weight:700;font-size:.95rem;
+  font-family:var(--body);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s,color .2s;
+  cursor:pointer;border:none;text-align:center;
+}
+.btn-gold{
+  background:var(--gold-grad);color:#fffcf4;
+  box-shadow:0 1px 2px rgba(120,80,10,.3),0 10px 26px -8px rgba(160,110,20,.55);
+}
+.btn-gold:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 2px 4px rgba(120,80,10,.3),0 16px 34px -8px rgba(160,110,20,.6)}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink);background:rgba(255,253,248,.5)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--gold-deep)}
+.btn-sm{padding:10px 22px;font-size:.88rem}
+.btn-wide{width:100%}
+
+/* ============ ГЛАВНЫЙ ЭКРАН ============ */
+.hero{padding:150px 0 88px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center}
+.hero h1{margin:20px 0 24px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;align-items:center}
+
+/* Оффер-плашка: дегустационный набор */
+.gift-pill{
+  display:inline-flex;align-items:flex-start;gap:14px;margin-top:24px;
+  padding:14px 22px 14px 16px;border-radius:16px;
+  background:linear-gradient(120deg,rgba(232,200,119,.26),rgba(232,200,119,.08));
+  border:1px dashed rgba(150,105,15,.4);
+}
+.gift-pill .gi{
+  width:40px;height:40px;flex:none;border-radius:12px;background:var(--gold-grad);
+  display:grid;place-items:center;color:#fff8e8;
+}
+.gift-pill p{font-size:.88rem;line-height:1.45;color:var(--ink-60)}
+.gift-pill b{color:var(--ink);display:block;font-size:.95rem}
+
+.hero-visual{position:relative}
+.hero-photo{
+  border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lift);
+  aspect-ratio:4/4.7;position:relative;
+}
+.hero-photo img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+.hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(200deg,rgba(217,169,63,.12),transparent 45%)}
+.hero-frame{position:absolute;inset:-16px 16px 16px -16px;border:1.5px solid var(--gold-soft);border-radius:32px;z-index:-1;opacity:.7}
+/* Паспорт партии — документ, который лежит в каждой посылке.
+   Фирменный элемент страницы: доказывает заголовок, а не украшает его. */
+.passport{
+  position:absolute;left:-44px;bottom:36px;width:290px;
+  background:rgba(255,253,248,.93);backdrop-filter:blur(22px) saturate(150%);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  border:1px solid rgba(255,255,255,.75);border-radius:16px;
+  padding:18px 20px 16px;box-shadow:var(--shadow-lift);
+  font-variant-numeric:tabular-nums;
+}
+.passport-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding-bottom:11px;border-bottom:1px solid var(--line);
+}
+.passport-head b{font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
+.passport-head span{font-size:.7rem;font-weight:700;color:var(--ink-40)}
+.passport dl{display:grid;grid-template-columns:auto 1fr;gap:0;margin:2px 0 0}
+.passport dt,.passport dd{padding:7px 0;border-bottom:1px solid rgba(150,105,15,.09)}
+.passport dt{font-size:.74rem;color:var(--ink-40);font-weight:600}
+.passport dd{font-size:.79rem;font-weight:700;text-align:right;color:var(--ink)}
+.passport dd em{font-style:normal;font-weight:600;color:var(--ink-60);font-size:.74rem}
+.passport-foot{
+  display:flex;align-items:center;gap:8px;padding-top:11px;
+  font-size:.72rem;font-weight:700;color:var(--gold-deep);
+}
+.passport-foot svg{flex:none}
+
+.stats{display:flex;gap:48px;margin-top:56px;flex-wrap:wrap}
+.stat .n{font-family:var(--display);font-size:2.4rem;color:var(--ink);line-height:1.1}
+.stat .n em{font-style:normal;color:var(--gold)}
+.stat p{font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-40);margin-top:4px;max-width:16ch}
+
+.hero [data-in]{animation:fade-up .7s var(--ease) backwards}
+.hero [data-in="1"]{animation-delay:.05s}.hero [data-in="2"]{animation-delay:.15s}
+.hero [data-in="3"]{animation-delay:.25s}.hero [data-in="4"]{animation-delay:.35s}
+.hero [data-in="5"]{animation-delay:.45s}.hero [data-in="6"]{animation-delay:.6s}
+@keyframes fade-up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ БЕГУЩАЯ СТРОКА ============ */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:16px 0;overflow:hidden;position:relative;z-index:2;background:rgba(255,253,248,.5);
+}
+.marquee-track{display:flex;width:max-content;animation:marquee 40s linear infinite}
+.marquee span{
+  font-size:.8rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-40);padding:0 26px;display:flex;align-items:center;gap:26px;white-space:nowrap;
+}
+.marquee span::after{content:'✦';color:var(--gold);letter-spacing:0}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ============ СЕКЦИИ ============ */
+section{padding:98px 0}
+.sec-head{max-width:660px;margin-bottom:52px}
+.sec-head h2{margin:18px 0 16px}
+
+/* Прячем блоки до появления ТОЛЬКО если JS работает: иначе страница
+   останется пустой при любой ошибке скрипта. Класс .js ставит инлайн-скрипт в <head>. */
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.on{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}
+.rv[data-d="3"]{transition-delay:.24s}.rv[data-d="4"]{transition-delay:.32s}
+
+/* ============ ПРОДУКЦИЯ (БЕНТО) ============ */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.cell{
+  grid-column:span 4;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;position:relative;box-shadow:var(--shadow-card);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  display:flex;flex-direction:column;
+}
+.cell:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift)}
+.cell-hero{grid-column:span 8}
+.cell-img{overflow:hidden;height:210px;flex:none;position:relative}
+.cell-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.cell:hover .cell-img img{transform:scale(1.05)}
+.cell-hero .cell-img{height:330px}
+.cell-body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
+.cell-body h3{font-size:1.15rem;margin-bottom:8px}
+.cell-hero .cell-body h3{font-size:1.5rem}
+.cell-body p{font-size:.88rem;color:var(--ink-60);line-height:1.55;flex:1}
+.cell-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px;flex-wrap:wrap}
+.price{font-weight:800;font-size:1rem;color:var(--gold-deep);line-height:1.3}
+.price small{display:block;font-size:.76rem;font-weight:600;color:var(--ink-40)}
+.tag{
+  position:absolute;top:16px;left:16px;z-index:3;
+  background:rgba(255,253,248,.88);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.7);
+  font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;color:var(--gold-deep);
+}
+.tag-dark{background:rgba(58,42,16,.82);color:var(--gold-soft);border-color:rgba(232,200,119,.3)}
+
+/* ============ ПОЧЕМУ НЕ 250 ₽ ============ */
+.value{background:linear-gradient(180deg,rgba(217,169,63,.07),transparent 70%);border-top:1px solid var(--line)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:40px}
+.cmp{border-radius:var(--r);padding:34px 32px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow-card)}
+.cmp-bad{background:rgba(34,26,14,.035);border-style:dashed}
+.cmp h3{font-size:1.2rem;margin-bottom:6px}
+.cmp .cmp-price{font-family:var(--display);font-size:2rem;line-height:1;margin-bottom:22px}
+.cmp-bad .cmp-price{color:var(--ink-40)}
+.cmp-good .cmp-price{color:var(--gold-deep)}
+.cmp ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+.cmp li{display:flex;gap:12px;font-size:.92rem;line-height:1.5;color:var(--ink-60)}
+.cmp li svg{flex:none;margin-top:3px}
+.cmp-good li{color:var(--ink)}
+.math{
+  border-radius:var(--r);padding:36px 40px;
+  background:
+    radial-gradient(600px 300px at 90% 0%,rgba(232,200,119,.28),transparent 60%),
+    linear-gradient(135deg,#3a2a10,#241806);
+  color:rgba(255,248,232,.82);box-shadow:var(--shadow-lift);
+}
+.math h3{color:#fff8e8;font-size:1.35rem;margin-bottom:14px}
+.math p{font-size:.98rem;line-height:1.65;max-width:76ch}
+.math b{color:var(--gold-soft)}
+
+/* ============ О ПАСЕКЕ ============ */
+.about-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:70px;align-items:center}
+.about-photos{position:relative;height:560px}
+.ph{position:absolute;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lift)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph-1{width:72%;height:72%;top:0;left:0;z-index:2}
+.ph-2{width:52%;height:48%;bottom:0;right:0;z-index:3;border:6px solid var(--bg)}
+.ph-hex{
+  position:absolute;top:56%;left:-30px;z-index:4;width:92px;height:92px;
+  background:var(--gold-grad);border-radius:20px;transform:rotate(12deg);
+  display:grid;place-items:center;color:#fff8e8;box-shadow:0 14px 30px -8px rgba(160,110,20,.5);
+}
+.about-text h2{margin:18px 0 22px}
+.about-text p{color:var(--ink-60);margin-bottom:18px}
+.about-quote{
+  font-family:var(--display);font-size:1.26rem;line-height:1.5;color:var(--ink);
+  border-left:2px solid var(--gold);padding:6px 0 6px 24px;margin:30px 0;
+}
+.sign{display:flex;align-items:center;gap:16px;margin-top:26px}
+.sign .ava{width:54px;height:54px;border-radius:50%;overflow:hidden;border:2px solid var(--gold-soft);flex:none}
+.sign .ava img{width:100%;height:100%;object-fit:cover}
+.sign b{display:block;font-size:1rem}
+.sign span{font-size:.82rem;color:var(--ink-40)}
+
+/* ============ ГАРАНТИИ ============ */
+.why{background:linear-gradient(180deg,rgba(217,169,63,.06),transparent);border-top:1px solid var(--line)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.why-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:32px 28px;box-shadow:var(--shadow-card);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.why-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift)}
+.why-ic{
+  width:52px;height:52px;border-radius:16px;background:rgba(217,169,63,.14);
+  display:grid;place-items:center;color:var(--gold-deep);margin-bottom:22px;
+}
+.why-card h3{font-size:1.06rem;margin-bottom:8px}
+.why-card p{font-size:.88rem;color:var(--ink-60)}
+
+/* ============ ОТЗЫВЫ ============ */
+.tst-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tst{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:36px 38px;box-shadow:var(--shadow-card);position:relative;
+}
+.tst::before{
+  content:'“';font-family:var(--display);font-size:4.6rem;color:var(--gold-soft);
+  position:absolute;top:4px;left:28px;line-height:1;
+}
+.tst blockquote{font-family:var(--display);font-size:1.14rem;line-height:1.55;margin:30px 0 24px}
+.tst-who{display:flex;align-items:center;gap:14px}
+.tst-who .dot{width:44px;height:44px;border-radius:50%;background:var(--gold-grad);color:#fff8e8;display:grid;place-items:center;font-weight:800;font-size:.95rem;flex:none}
+.tst-who b{display:block;font-size:.95rem}
+.tst-who span{font-size:.8rem;color:var(--ink-40)}
+.starline{color:var(--gold);letter-spacing:3px;font-size:.85rem;margin-bottom:6px}
+
+/* ============ ВОПРОСЫ ============ */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+details.q{
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  padding:0 26px;box-shadow:var(--shadow-card);transition:box-shadow .3s var(--ease);
+}
+details.q[open]{box-shadow:var(--shadow-lift)}
+details.q summary{
+  list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;
+  font-weight:700;font-size:1rem;line-height:1.45;
+}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::after{
+  content:'';position:absolute;right:4px;top:26px;width:13px;height:13px;
+  border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);
+  transform:rotate(45deg);transition:transform .3s var(--ease);
+}
+details.q[open] summary::after{transform:rotate(-135deg);top:30px}
+details.q .a{padding:0 0 24px;font-size:.93rem;color:var(--ink-60);line-height:1.65;animation:fade-up .4s var(--ease)}
+
+/* ============ ДОСТАВКА ============ */
+.ship-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ship{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 30px;box-shadow:var(--shadow-card);display:flex;gap:18px;align-items:flex-start;
+}
+.ship .si{width:44px;height:44px;flex:none;border-radius:14px;background:rgba(217,169,63,.14);display:grid;place-items:center;color:var(--gold-deep)}
+.ship h3{font-size:1.04rem;margin-bottom:6px}
+.ship p{font-size:.88rem;color:var(--ink-60);line-height:1.55}
+
+/* ============ ЗАКАЗ + ФОРМА ============ */
+.cta-band{padding:0}
+.cta-in{
+  position:relative;border-radius:34px;overflow:hidden;padding:70px 64px;color:#fff8e8;
+  background:
+    radial-gradient(700px 400px at 85% 10%,rgba(232,200,119,.35),transparent 55%),
+    radial-gradient(500px 380px at 10% 90%,rgba(150,105,15,.55),transparent 60%),
+    linear-gradient(135deg,#3a2a10 0%,#241806 100%);
+  box-shadow:var(--shadow-lift);
+}
+.cta-in::after{
+  content:'';position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0L56 16.2v32.3L28 64.7 0 48.5V16.2L28 0zm0 64.7L56 80.8V97H0V80.8l28-16.1z' fill='none' stroke='rgba(232,200,119,0.1)' stroke-width='1'/%3E%3C/svg%3E");
+}
+.cta-grid{display:grid;grid-template-columns:1fr .9fr;gap:56px;position:relative;z-index:2;align-items:start}
+.cta-in h2{color:#fff8e8;max-width:18ch;margin-top:18px}
+.cta-in .lead{color:rgba(255,248,232,.72);margin:18px 0 34px}
+.cta-steps{display:flex;flex-direction:column;gap:22px;margin-bottom:34px}
+.step{display:flex;gap:16px;align-items:flex-start}
+.step .sn{font-family:var(--display);font-size:1.6rem;color:var(--gold-soft);line-height:1;flex:none;width:34px}
+.step p{font-size:.9rem;color:rgba(255,248,232,.72);line-height:1.5}
+.step b{color:#fff8e8;display:block;font-size:.98rem;margin-bottom:3px}
+.cta-contacts{display:flex;gap:12px;flex-wrap:wrap}
+.btn-light{background:#fff8e8;color:#3a2a10}
+.btn-light:hover{transform:translateY(-2px) scale(1.02)}
+.btn-outline{border:1.5px solid rgba(255,248,232,.4);color:#fff8e8}
+.btn-outline:hover{transform:translateY(-2px);border-color:var(--gold-soft);color:var(--gold-soft)}
+
+.form-card{
+  background:rgba(255,253,248,.97);border-radius:26px;padding:34px 32px;
+  box-shadow:0 30px 60px -20px rgba(20,12,2,.5);color:var(--ink);
+}
+.form-card h3{font-size:1.3rem;margin-bottom:6px}
+.form-card .fsub{font-size:.87rem;color:var(--ink-60);margin-bottom:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-40);margin-bottom:7px}
+.field input,.field select,.field textarea{
+  width:100%;padding:13px 16px;border-radius:13px;border:1.5px solid var(--line);
+  background:#fff;font-family:var(--body);font-size:.95rem;color:var(--ink);
+  transition:border-color .2s,box-shadow .2s;
+}
+.field textarea{resize:vertical;min-height:74px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,169,63,.18);
+}
+.field .err{display:none;font-size:.79rem;color:#b3402a;margin-top:5px;font-weight:600;text-transform:none;letter-spacing:0}
+.field.invalid input{border-color:#d4674f}
+.field.invalid .err{display:block}
+.form-note{font-size:.76rem;color:var(--ink-40);line-height:1.5;margin-top:14px;text-align:center}
+.form-ok{display:none;text-align:center;padding:26px 6px}
+.form-ok.show{display:block;animation:fade-up .5s var(--ease)}
+.form-ok .ok-ic{width:62px;height:62px;margin:0 auto 18px;border-radius:50%;background:var(--gold-grad);display:grid;place-items:center;color:#fff8e8}
+.form-ok h3{margin-bottom:10px}
+.form-ok p{font-size:.92rem;color:var(--ink-60);line-height:1.6}
+
+/* ============ ПОДВАЛ ============ */
+footer{padding:70px 0 40px;border-top:1px solid var(--line);margin-top:98px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;margin-bottom:52px}
+.foot-grid h4{font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-40);margin-bottom:18px}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:10px}
+.foot-grid a,.foot-grid li span{font-size:.92rem;color:var(--ink-60);transition:color .2s}
+.foot-grid a:hover{color:var(--gold-deep)}
+.foot-brand p{font-size:.9rem;color:var(--ink-60);margin-top:14px;max-width:32ch}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:26px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-40);flex-wrap:wrap}
+
+/* ============ ОКНО ПЕРЕПИСКИ ============
+   Демонстрационный чат: сообщение остаётся в браузере посетителя
+   и получает отметку о доставке, но никуда не передаётся. */
+.chat-overlay{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(20,14,4,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;transition:opacity .3s var(--ease);
+}
+.chat-overlay.show{opacity:1}
+.chat{
+  width:min(400px,100%);height:min(78vh,600px);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:#ece5dd;border-radius:20px 20px 0 0;
+  box-shadow:0 -10px 60px -10px rgba(20,14,4,.5);
+  transform:translateY(20px);transition:transform .35s var(--ease);
+}
+.chat-overlay.show .chat{transform:translateY(0)}
+
+.chat-head{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--acc,#128C7E);color:#fff;flex:none;
+}
+.chat-ava{
+  width:40px;height:40px;flex:none;border-radius:50%;overflow:hidden;
+  background:rgba(255,255,255,.25);display:grid;place-items:center;
+  font-weight:800;font-size:1rem;
+}
+.chat-ava img{width:100%;height:100%;object-fit:cover}
+.chat-head b{display:block;font-size:.98rem;line-height:1.25}
+.chat-head span{font-size:.76rem;opacity:.85}
+.chat-head .grow{flex:1;min-width:0}
+.chat-close{
+  flex:none;width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center;
+  font-size:1.3rem;line-height:1;transition:background .2s;
+}
+.chat-close:hover{background:rgba(255,255,255,.3)}
+
+.chat-body{
+  flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='rgba(150,120,60,0.07)' stroke-width='1'%3E%3Cpath d='M20 8l10 5.8v11.6L20 31 10 25.4V13.8L20 8z'/%3E%3Cpath d='M60 48l10 5.8v11.6L60 71l-10-5.6V53.8L60 48z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.msg{
+  max-width:82%;padding:8px 11px 6px;border-radius:12px;font-size:.9rem;line-height:1.45;
+  position:relative;word-wrap:break-word;
+  animation:msg-in .28s var(--ease) backwards;
+}
+@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg-in{align-self:flex-start;background:#fff;color:#111b21;border-top-left-radius:3px}
+.msg-out{align-self:flex-end;background:var(--acc-bubble,#d9fdd3);color:#111b21;border-top-right-radius:3px}
+.msg time{
+  display:inline-block;font-size:.66rem;color:rgba(17,27,33,.45);
+  margin-left:8px;float:right;margin-top:4px;white-space:nowrap;
+}
+.msg .tick{margin-left:3px;font-weight:700;letter-spacing:-2px}
+.msg .tick.read{color:#53bdeb}
+.chat-note{
+  align-self:center;background:rgba(255,255,255,.75);color:rgba(17,27,33,.6);
+  font-size:.72rem;padding:5px 12px;border-radius:8px;text-align:center;max-width:90%;
+}
+
+.chat-form{display:flex;gap:8px;padding:10px;background:#f0f2f5;flex:none;align-items:flex-end}
+.chat-form input{
+  flex:1;min-width:0;padding:11px 15px;border-radius:20px;border:none;
+  font-family:var(--body);font-size:.92rem;background:#fff;color:#111b21;
+}
+.chat-form input:focus{outline:2px solid var(--acc,#128C7E);outline-offset:-2px}
+.chat-send{
+  flex:none;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--acc,#128C7E);color:#fff;display:grid;place-items:center;
+  transition:transform .2s var(--ease),opacity .2s;
+}
+.chat-send:hover{transform:scale(1.06)}
+.chat-send:disabled{opacity:.45;cursor:default;transform:none}
+
+@media (min-width:700px){
+  .chat-overlay{align-items:center}
+  .chat{border-radius:16px}
+}
+
+/* ============ ЛИПКАЯ ПАНЕЛЬ (МОБИЛЬНАЯ) ============ */
+.mobile-bar{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;
+  padding:11px 14px calc(11px + env(safe-area-inset-bottom));gap:10px;
+  background:rgba(251,247,239,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);box-shadow:0 -8px 30px -12px rgba(60,42,10,.22);
+}
+.mobile-bar .btn{flex:1;padding:14px 18px}
+.mobile-bar .btn-icon{flex:none;width:52px;padding:0;border:1.5px solid var(--line);background:var(--surface);color:var(--gold-deep)}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width:1000px){
+  .hero-grid,.about-grid,.cta-grid{grid-template-columns:1fr;gap:46px}
+  .hero{padding-top:132px}
+  .passport{left:0;bottom:24px}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .tst-grid,.faq-grid,.compare{grid-template-columns:1fr}
+  .cell,.cell-hero{grid-column:span 6}
+  .ship-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .cta-in{padding:56px 36px}
+  .math{padding:32px 30px}
+}
+@media (max-width:768px){
+  .nav-links{display:none}
+  .mobile-bar{display:flex}
+  body{padding-bottom:76px}
+  /* Компактная шапка: длинное название иначе переносится в три строки */
+  .logo{font-size:1.05rem;gap:10px}
+  .logo small{display:none}
+  .nav-in{padding:12px 20px;gap:12px}
+  .logo span{white-space:nowrap}
+  .cta-word{display:none}
+  .btn-sm{padding:10px 18px}
+  .hero{padding-top:104px}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  section{padding:74px 0}
+  .cell,.cell-hero{grid-column:span 12}
+  .cell-img,.cell-hero .cell-img{height:220px}
+  .why-grid{grid-template-columns:1fr}
+  .stats{gap:28px}
+  .stat .n{font-size:2rem}
+  .about-photos{height:400px}
+  .passport{position:static;width:auto;margin-top:18px}
+  .foot-grid{grid-template-columns:1fr}
+  .cta-in{padding:46px 24px;border-radius:24px}
+  .form-card{padding:28px 22px}
+  .tst{padding:30px 26px}
+  .cmp{padding:28px 24px}
+  .marquee span{font-size:.72rem;padding:0 18px;gap:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ НАВИГАЦИЯ ============ -->
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#" class="logo" aria-label="Пасека Вячеслава — на главную">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <path d="M17 2L30 9.5V24.5L17 32L4 24.5V9.5L17 2Z" stroke="#b8842c" stroke-width="1.6"/>
+        <path d="M17 9L23.5 12.8V20.4L17 24.2L10.5 20.4V12.8L17 9Z" fill="#d9a93f"/>
+      </svg>
+      <span>Пасека Вячеслава<small>мёд с протоколом анализа</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#products">Продукция</a>
+      <a href="#value">Цена</a>
+      <a href="#about">О пасеке</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#reviews">Отзывы</a>
+    </div>
+    <a href="#order" class="btn btn-gold btn-sm">Заказать<span class="cta-word">&nbsp;мёд</span></a>
+  </div>
+</nav>
+
+<!-- ============ ГЛАВНЫЙ ЭКРАН ============ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="label" data-in="1">Пасека на Урале · с 2011 года</span>
+      <h1 data-in="2">Мёд, который можно <span class="gold-i">проверить</span></h1>
+      <p class="lead" data-in="3">Меня зовут Вячеслав. У меня 120 ульев в урочище в 40 км от ближайшей трассы. Я не грею мёд, не смешиваю урожаи и не покупаю его на стороне — а к каждой посылке кладу протокол лабораторного анализа, чтобы вам не пришлось верить мне на слово.</p>
+      <div class="hero-ctas" data-in="4">
+        <a href="#products" class="btn btn-gold">Выбрать мёд</a>
+        <a href="#value" class="btn btn-ghost">Почему не 250 ₽</a>
+      </div>
+      <div class="gift-pill" data-in="4">
+        <div class="gi" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8M2 8h20v4H2zM12 8v12M12 8S10.5 3 8 3a2.5 2.5 0 000 5M12 8s1.5-5 4-5a2.5 2.5 0 010 5"/></svg>
+        </div>
+        <p><b>Дегустационный набор в подарок</b>Четыре сорта по 50 г к первому заказу — сначала попробуйте, потом решайте.</p>
+      </div>
+      <div class="stats" data-in="5">
+        <div class="stat"><div class="n">15<em>+</em></div><p>лет пчеловодства</p></div>
+        <div class="stat"><div class="n">120</div><p>ульев на пасеке</p></div>
+        <div class="stat"><div class="n">3400<em>+</em></div><p>заказов с 2011 года</p></div>
+        <div class="stat"><div class="n">100<em>%</em></div><p>партий с анализом</p></div>
+      </div>
+    </div>
+    <div class="hero-visual" data-in="6">
+      <div class="hero-frame"></div>
+      <!-- Фотография пасеки -->
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1473973266408-ed4e27abdd47?auto=format&fit=crop&w=900&q=80" alt="Пчеловод Вячеслав осматривает рамки на своей пасеке">
+      </div>
+      <!-- Паспорт партии: копия документа, который едет вместе с мёдом -->
+      <figure class="passport">
+        <div class="passport-head">
+          <b>Паспорт партии</b>
+          <span>№ 26-08</span>
+        </div>
+        <dl>
+          <dt>Дата качки</dt><dd>12 августа 2026</dd>
+          <dt>Диастазное число</dt><dd>23,4 <em>ед. Готе</em></dd>
+          <dt>Массовая доля воды</dt><dd>17,2 <em>%</em></dd>
+          <dt>Преобладание пыльцы</dt><dd>кипрей, донник</dd>
+        </dl>
+        <figcaption class="passport-foot">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          Подтверждено независимой лабораторией
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</header>
+
+<!-- ============ БЕГУЩАЯ СТРОКА ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mq">
+    <span>Урожай 2026 года</span><span>Качка июль — август</span><span>Протокол анализа в каждой посылке</span><span>Без нагрева и купажа</span><span>Доставка от 2 дней</span><span>Бесплатно от 3500 ₽</span>
+  </div>
+</div>
+
+<!-- ============ ПРОДУКЦИЯ ============ -->
+<section id="products">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label">Наша продукция</span>
+      <h2>Всё, что дарит улей — <span class="gold-i">от мёда до мазей</span></h2>
+      <p class="lead">Каждый продукт — с моей собственной пасеки. Никаких перекупщиков и «сборного» мёда: вы знаете, кто и где собрал вашу банку. Нажмите «Заказать» — я отвечу лично и помогу выбрать.</p>
+    </div>
+
+    <div class="bento">
+      <!-- 1. Соты -->
+      <article class="cell cell-hero rv">
+        <div class="cell-img">
+          <span class="tag">Хит сезона</span>
+          <!-- Фото продукта -->
+          <img src="https://images.unsplash.com/photo-1718146921295-700b969e7c78?auto=format&fit=crop&w=1200&q=80" alt="Сотовый мёд, стекающий с ложки" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Мёд в сотах</h3>
+          <p>Мёд, который пчёлы запечатали воском, а человек не трогал вообще: ни откачки, ни фильтров, ни тары. Соты едят целиком — вместе с воском и прополисом, как делали до появления банок. Детям такие «соты-жвачка» обычно нравятся больше конфет, а взрослые берут их, когда хотят вспомнить вкус мёда из детства.</p>
+          <div class="cell-foot">
+            <div class="price">от 950 ₽<small>за килограмм, рамка режется при вас</small></div>
+            <button class="btn btn-gold" data-order="Мёд в сотах">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Цветочный -->
+      <article class="cell rv" data-d="1">
+        <div class="cell-img">
+          <img src="https://images.unsplash.com/photo-1555211652-5c6222f971bc?auto=format&fit=crop&w=700&q=80" alt="Банка светлого цветочного мёда с полевыми цветами" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Цветочный мёд</h3>
+          <p>Светлый, мягкий, почти без горчинки — с него стоит начинать знакомство с настоящим мёдом. Ложка в тёплое (не горячее!) молоко на ночь — то, за чем к нему возвращаются всю зиму.</p>
+          <div class="cell-foot">
+            <div class="price">550 ₽<small>0,5 кг · 990 ₽ за 1 кг</small></div>
+            <button class="btn btn-gold btn-sm" data-order="Цветочный мёд">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. Гречишный -->
+      <article class="cell rv" data-d="1">
+        <div class="cell-img">
+          <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=700&q=80" alt="Тёмный гречишный мёд в банке" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Гречишный мёд</h3>
+          <p>Тёмный, терпкий, с горчинкой в послевкусии — на любителя, но кто распробовал, других уже не берёт. В нём больше всего железа, поэтому его чаще спрашивают при низком гемоглобине и после болезни.</p>
+          <div class="cell-foot">
+            <div class="price">600 ₽<small>0,5 кг · 1100 ₽ за 1 кг</small></div>
+            <button class="btn btn-gold btn-sm" data-order="Гречишный мёд">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. Пыльца и перга -->
+      <article class="cell rv" data-d="2">
+        <div class="cell-img">
+          <img src="https://images.unsplash.com/photo-1750582467180-41558fbfea17?auto=format&fit=crop&w=700&q=80" alt="Пчелиная пыльца, высыпающаяся из банки" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Пыльца и перга</h3>
+          <p>То, чем пчёлы кормят собственный расплод. Берут курсом с октября по март: чайная ложка утром натощак, всей семьёй. Самый частый отзыв после первой зимы — «впервые обошлись без больничных».</p>
+          <div class="cell-foot">
+            <div class="price">от 420 ₽<small>за 100 г</small></div>
+            <button class="btn btn-gold btn-sm" data-order="Пыльца и перга">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Мази -->
+      <article class="cell rv" data-d="2">
+        <div class="cell-img">
+          <img src="https://images.unsplash.com/photo-1631438420064-8f1b2b52b2e6?auto=format&fit=crop&w=700&q=80" alt="Баночка натуральной мази на основе воска и прополиса" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Мази и бальзамы</h3>
+          <p>Три состава на воске и прополисе. Согревающий с живицей — для коленей и поясницы. Заживляющий — для трещин на руках и детских ссадин. Мягкий детский с календулой — для сухой кожи и опрелостей.</p>
+          <div class="cell-foot">
+            <div class="price">от 380 ₽<small>баночка 50 мл</small></div>
+            <button class="btn btn-gold btn-sm" data-order="Мази и бальзамы">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6. Свечи -->
+      <article class="cell rv" data-d="3">
+        <div class="cell-img">
+          <img src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?auto=format&fit=crop&w=700&q=80" alt="Свечи из натурального пчелиного воска" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Свечи из воска</h3>
+          <p>Катаю из забруса и вытопленного воска — без парафина и пропитки фитиля. Горят ровно и долго, почти не коптят и пахнут мёдом, а не «ароматизатором, идентичным натуральному».</p>
+          <div class="cell-foot">
+            <div class="price">от 250 ₽<small>за свечу</small></div>
+            <button class="btn btn-gold btn-sm" data-order="Свечи из воска">Заказать</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. Подарочный набор -->
+      <article class="cell cell-hero rv" data-d="3">
+        <div class="cell-img">
+          <span class="tag tag-dark">Подарок</span>
+          <img src="https://images.unsplash.com/photo-1777768785464-826af9f5d2e4?auto=format&fit=crop&w=1200&q=80" alt="Подарочный набор мёда и пчелопродукции в деревянном ящике" loading="lazy">
+        </div>
+        <div class="cell-body">
+          <h3>Набор «Пасека в коробке»</h3>
+          <p>Мёд двух сортов, кусок сот, баночка пыльцы и восковая свеча — в деревянном ящике с крафтовой стружкой и открыткой, подписанной от руки. Собираю под повод: на день рождения, к празднику, коллегам или врачу. Для корпоративных заказов от 10 наборов делаю свою этикетку с вашим логотипом.</p>
+          <div class="cell-foot">
+            <div class="price">от 2400 ₽<small>состав и бюджет — под вас</small></div>
+            <button class="btn btn-gold" data-order="Подарочный набор «Пасека в коробке»">Собрать набор</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ПОЧЕМУ НЕ 250 ₽ ============ -->
+<section id="value" class="value">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label">О цене честно</span>
+      <h2>Почему настоящий мёд <span class="gold-i">не стоит 250 ₽</span></h2>
+      <p class="lead">Мой мёд дороже магазинного в два-три раза, и я считаю правильным объяснить, за что именно вы платите разницу.</p>
+    </div>
+
+    <div class="compare">
+      <div class="cmp cmp-bad rv">
+        <h3>Мёд с полки супермаркета</h3>
+        <div class="cmp-price">≈ 250 ₽ / кг</div>
+        <ul>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(34,26,14,.35)" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Часто качают незрелым, не дожидаясь, пока пчёлы запечатают соты — отсюда высокая влажность и брожение.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(34,26,14,.35)" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Греют до 60–70 °C, чтобы он красиво тёк и не садился на полке. Ферменты после этого мертвы.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(34,26,14,.35)" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Купаж из десятков источников, включая импортное сырьё. На банке — «Россия», в банке — что угодно.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(34,26,14,.35)" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Происхождение не проверить: спросить, где стояли ульи, буквально не у кого.</span></li>
+        </ul>
+      </div>
+
+      <div class="cmp cmp-good rv" data-d="1">
+        <h3>Мёд с моей пасеки</h3>
+        <div class="cmp-price">550–1100 ₽ / кг</div>
+        <ul>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#96690f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Качаю только запечатанные рамки — то есть мёд, который пчёлы сами признали зрелым.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#96690f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Не грею выше 38 °C — это температура внутри улья. Мёд садится, как и должен, и это правильно.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#96690f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Не смешиваю урожаи и сорта. Каждая банка — с конкретной качки, я помню, с каких рамок.</span></li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#96690f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>В посылке лежит протокол лаборатории: диастазное число, влажность, пыльцевой состав.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="math rv" data-d="2">
+      <h3>Простая арифметика улья</h3>
+      <p>Одна пчелиная семья даёт за сезон <b>25–40 кг товарного мёда</b> — и это в хороший год. Из собранного нужно оставить пчёлам 15–20 кг на зимовку, иначе весной семьи просто не будет. Дальше вычтите вощину, рамки, лечение от клеща, бензин до пасеки и обратно, стекло, крышки, коробки — и месяцы работы, в которые сезон превращается для пчеловода. <b>Мёд по 250 ₽ за килограмм физически не может быть мёдом.</b> За такие деньги продают сироп, который пчёлы просто переработали, или разбавленный купаж — и никакая красивая этикетка этого не меняет.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ О ПАСЕКЕ ============ -->
+<section id="about" class="about">
+  <div class="wrap about-grid">
+    <div class="about-photos rv">
+      <!-- Фотографии пасеки -->
+      <div class="ph ph-1"><img src="https://images.unsplash.com/photo-1498936178812-4b2e558d2937?auto=format&fit=crop&w=800&q=80" alt="Пчёлы у летка улья" loading="lazy"></div>
+      <div class="ph ph-2"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=700&q=80" alt="Луга вокруг пасеки на рассвете" loading="lazy"></div>
+      <div class="ph-hex" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M12 7l4 2.25v4.5L12 16l-4-2.25v-4.5L12 7z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="label rv">О пасеке</span>
+      <h2 class="rv" data-d="1">Дело, которое началось <span class="gold-i">с трёх ульев</span> деда</h2>
+      <p class="rv" data-d="2">В 2011 году мне достались от деда три старых улья и тетрадь с записями за сорок лет — какой год был медовым, когда зацвёл кипрей, какая семья пережила зимовку. Я до сих пор веду её дальше, только теперь на 120 семей.</p>
+      <p class="rv" data-d="2">Пасека стоит в урочище на Урале, в 40 километрах от ближайшей трассы: вокруг донник, кипрей и луговое разнотравье, а полей с обработкой нет в радиусе пяти километров. Место я выбирал дольше, чем покупал первые ульи, — потому что качество мёда решается именно здесь, а не в цеху розлива.</p>
+      <p class="rv" data-d="2">Я не покупаю мёд на стороне и не смешиваю урожаи. Каждая партия качается на моей медогонке, отстаивается и разливается вручную, а потом уходит на анализ в независимую лабораторию. Протокол я кладу в посылку — не потому что обязан, а потому что это единственный способ доказать слова, когда вы за тысячу километров.</p>
+      <blockquote class="about-quote rv" data-d="3">«Пчёл невозможно обмануть — они не понесут взяток с плохого места. Поэтому лучшая гарантия качества мёда — место, где стоят ульи.»</blockquote>
+      <div class="sign rv" data-d="3">
+        <div class="ava"><img src="https://images.unsplash.com/photo-1473973266408-ed4e27abdd47?auto=format&fit=crop&w=200&q=70" alt="Вячеслав, пчеловод" loading="lazy"></div>
+        <div><b>Вячеслав</b><span>пчеловод, основатель пасеки</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ГАРАНТИИ ============ -->
+<section id="why" class="why">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label">Почему нам доверяют</span>
+      <h2>Честный мёд — это <span class="gold-i">проверяемо</span></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card rv">
+        <div class="why-ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M18.4 5.6l-2.1 2.1M21 12h-3M12 21a6 6 0 006-6H6a6 6 0 006 6z"/></svg>
+        </div>
+        <h3>Без нагрева</h3>
+        <p>Мёд не поднимается выше 38 °C ни на одном этапе — ни при откачке, ни при розливе. Все ферменты остаются живыми, а мёд честно садится зимой.</p>
+      </div>
+      <div class="why-card rv" data-d="1">
+        <div class="why-ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3h6M10 3v5.5L4.5 18a2.5 2.5 0 002.2 3.5h10.6a2.5 2.5 0 002.2-3.5L14 8.5V3M7 15h10"/></svg>
+        </div>
+        <h3>Анализ каждой партии</h3>
+        <p>Диастазное число, влажность, пыльцевой состав. Протокол независимой лаборатории лежит в каждой посылке — вам не нужно верить мне на слово.</p>
+      </div>
+      <div class="why-card rv" data-d="2">
+        <div class="why-ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="10.5" r="2.5"/></svg>
+        </div>
+        <h3>Чистое место сбора</h3>
+        <p>Урочище без обрабатываемых полей в радиусе 5 км и в 40 км от трассы. Пчёлы берут взяток только с дикого разнотравья.</p>
+      </div>
+      <div class="why-card rv" data-d="3">
+        <div class="why-ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.5-3 7.7-7.5 9-4.5-1.3-7.5-4.5-7.5-9V6L12 3z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Не понравится — верну деньги</h3>
+        <p>Попробовали и не зашло по вкусу? Напишите в течение двух недель — верну стоимость мёда без разбирательств. За пятнадцать лет таких случаев было четыре.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ОТЗЫВЫ ============ -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label">Отзывы</span>
+      <h2>Слова тех, кто уже <span class="gold-i">попробовал</span></h2>
+    </div>
+    <div class="tst-grid">
+      <div class="tst rv">
+        <div class="starline" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Заказываю у Вячеслава третий сезон подряд — беру по шесть банок на всю зиму. Мёд засахаривается ровно так, как должен настоящий, а гречишный вообще вне конкуренции. Однажды взяла «для сравнения» банку в супермаркете — семья отказалась её есть.</blockquote>
+        <div class="tst-who">
+          <div class="dot" aria-hidden="true">ЕК</div>
+          <div><b>Елена Ковалёва</b><span>покупает с 2024 года · Екатеринбург</span></div>
+        </div>
+      </div>
+      <div class="tst rv" data-d="1">
+        <div class="starline" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Брал мазь с прополисом для отца — у него годами трескалась кожа на руках, перепробовали половину аптеки. Через три недели он про это забыл. Теперь заказываем и мёд, и пергу. Отдельное спасибо за протокол анализа в коробке — такого не делает больше никто.</blockquote>
+        <div class="tst-who">
+          <div class="dot" aria-hidden="true">ДМ</div>
+          <div><b>Дмитрий Морозов</b><span>покупает с 2024 года · Тюмень</span></div>
+        </div>
+      </div>
+      <div class="tst rv" data-d="2">
+        <div class="starline" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Заказала двенадцать наборов коллегам на Новый год. Боялась, что выйдет «дежурный подарок», а получилось лучшее, что я дарила за все годы: деревянные ящики, стружка, открытки от руки. Половина отдела потом написала Вячеславу сама и заказала уже себе домой.</blockquote>
+        <div class="tst-who">
+          <div class="dot" aria-hidden="true">ОС</div>
+          <div><b>Ольга Смирнова</b><span>корпоративный заказ · Челябинск</span></div>
+        </div>
+      </div>
+      <div class="tst rv" data-d="3">
+        <div class="starline" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Первый раз брала дегустационный набор — просто чтобы понять, стоит ли это своих денег. Разница с магазинным оказалась такой, что вопрос отпал сам собой. Второй год пьём пыльцу всей семьёй с октября, дети за зиму ни разу не ушли на больничный.</blockquote>
+        <div class="tst-who">
+          <div class="dot" aria-hidden="true">МТ</div>
+          <div><b>Марина Тихонова</b><span>покупает с 2025 года · Пермь</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ВОПРОСЫ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="label">Частые вопросы</span>
+      <h2>О чём меня спрашивают <span class="gold-i">чаще всего</span></h2>
+      <p class="lead">Если вашего вопроса здесь нет — просто напишите, отвечаю лично и без заготовленных фраз.</p>
+    </div>
+    <div class="faq-grid">
+      <div>
+        <details class="q rv" open>
+          <summary>Мёд засахарился. Он испортился?</summary>
+          <div class="a">Наоборот — это лучшее доказательство, что мёд настоящий. Кристаллизация естественна для любого зрелого мёда: цветочный садится через 2–3 месяца, гречишный чуть позже. Жидким всю зиму остаётся либо мёд, который перегрели, либо тот, где мёда почти нет. Если хочется вернуть текучесть — подержите банку в тёплой воде до 40 °C, но не в микроволновке.</div>
+        </details>
+        <details class="q rv" data-d="1" style="margin-top:16px">
+          <summary>Как понять, что мёд настоящий?</summary>
+          <div class="a">Домашние проверки с йодом и карандашом — миф, они ничего не показывают. Настоящих способа три: лабораторный анализ (я кладу протокол в посылку), кристаллизация в срок и знание конкретного пчеловода, у которого можно спросить, где стояли ульи. Именно поэтому я показываю пасеку и подписываюсь именем, а не названием бренда.</div>
+        </details>
+        <details class="q rv" data-d="1" style="margin-top:16px">
+          <summary>Как хранить мёд и сколько он живёт?</summary>
+          <div class="a">В плотно закрытой стеклянной банке, при комнатной температуре, подальше от солнца и резких запахов — мёд легко впитывает чужой аромат. В холодильник ставить не нужно. Правильно собранный зрелый мёд не портится годами, но самым вкусным он остаётся первые полтора-два года.</div>
+        </details>
+        <details class="q rv" data-d="2" style="margin-top:16px">
+          <summary>Беру впервые. С чего начать?</summary>
+          <div class="a">С дегустационного набора — четыре сорта по 50 г, он идёт в подарок к первому заказу. Так вы поймёте свой вкус, не покупая сразу килограмм. Если брать сразу банку, самый безопасный выбор — цветочный: он мягкий и нравится почти всем, включая детей.</div>
+        </details>
+      </div>
+      <div>
+        <details class="q rv" data-d="1">
+          <summary>Можно ли мёд детям?</summary>
+          <div class="a">Детям до года мёд не дают — это международная рекомендация, связанная с риском ботулизма у младенцев. После года обычно вводят понемногу, начиная с половины чайной ложки, и следят за реакцией: мёд остаётся сильным аллергеном. Если у ребёнка есть аллергия или хронические заболевания, посоветуйтесь с педиатром — я пчеловод, а не врач, и не стану советовать за него.</div>
+        </details>
+        <details class="q rv" data-d="2" style="margin-top:16px">
+          <summary>А если вкус не понравится?</summary>
+          <div class="a">Напишите мне в течение двух недель после получения — верну стоимость мёда, возвращать саму банку не нужно. Мне важнее, чтобы вы остались с хорошим впечатлением, чем удержать шестьсот рублей. За пятнадцать лет таких обращений было четыре, и все четыре я закрыл возвратом.</div>
+        </details>
+        <details class="q rv" data-d="2" style="margin-top:16px">
+          <summary>Сколько стоит доставка и как быстро?</summary>
+          <div class="a">По России — СДЭК и Почта, 2–7 дней в зависимости от региона, 350–500 ₽. При заказе от 3500 ₽ доставку беру на себя. По Екатеринбургу привожу сам в удобное вам время, это бесплатно. Мёд едет в стекле, в коробке с деревянной стружкой — за всё время не разбилась ни одна банка.</div>
+        </details>
+        <details class="q rv" data-d="3" style="margin-top:16px">
+          <summary>Мёд какого года я получу?</summary>
+          <div class="a">Урожая 2026 года — качка была в июле и августе. Урожай ограничен: сколько собрали, столько и есть, докупать на стороне я не буду. Когда сорт заканчивается, он просто исчезает с сайта до следующего лета — чаще всего первым уходит гречишный и сотовый.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ДОСТАВКА ============ -->
+<section id="shipping" style="padding-top:0">
+  <div class="wrap">
+    <div class="ship-grid">
+      <div class="ship rv">
+        <div class="si" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z"/><circle cx="7.5" cy="18.5" r="1.8"/><circle cx="17.5" cy="18.5" r="1.8"/></svg></div>
+        <div>
+          <h3>Доставка</h3>
+          <p>СДЭК и Почта России — 2–7 дней, 350–500 ₽. От 3500 ₽ бесплатно. По Екатеринбургу привожу лично.</p>
+        </div>
+      </div>
+      <div class="ship rv" data-d="1">
+        <div class="si" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg></div>
+        <div>
+          <h3>Оплата</h3>
+          <p>Переводом на карту или при получении. Первый заказ — без предоплаты: сначала посылка, потом деньги.</p>
+        </div>
+      </div>
+      <div class="ship rv" data-d="2">
+        <div class="si" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg></div>
+        <div>
+          <h3>Упаковка</h3>
+          <p>Стекло, крафт и деревянная стружка. Каждая банка в отдельном гнезде — за всё время не разбилась ни одна.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЗАКАЗ + ФОРМА ============ -->
+<section id="order" class="cta-band">
+  <div class="wrap">
+    <div class="cta-in rv">
+      <div class="cta-grid">
+        <div>
+          <span class="label" style="color:var(--gold-soft)">Как заказать</span>
+          <h2>Три шага до банки настоящего мёда</h2>
+          <p class="lead">Оставьте заявку или напишите сами — отвечу лично, помогу выбрать мёд под ваш вкус и соберу заказ в день обращения.</p>
+          <div class="cta-steps">
+            <div class="step"><div class="sn">01</div><p><b>Оставьте заявку</b>Подскажу по вкусам, соберу набор или подарок — без навязывания.</p></div>
+            <div class="step"><div class="sn">02</div><p><b>Подтвердите заказ</b>Первый заказ — без предоплаты. Оплата при получении или переводом.</p></div>
+            <div class="step"><div class="sn">03</div><p><b>Получите свежий мёд</b>По Екатеринбургу — лично в руки, по России — за 2–7 дней.</p></div>
+          </div>
+          <div class="cta-contacts">
+            <a href="tel:+79152505531" class="btn btn-light">Позвонить: +7 (915) 250-55-31</a>
+            <a href="https://t.me/paseka_vyacheslav" class="btn btn-outline" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://wa.me/79152505531" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <form id="orderForm" novalidate>
+            <h3>Оставьте заявку</h3>
+            <p class="fsub">Отвечу лично в течение часа — с 8:00 до 21:00 по Екатеринбургу.</p>
+
+            <div class="field" id="f-name">
+              <label for="in-name">Как к вам обращаться</label>
+              <input type="text" id="in-name" name="name" placeholder="Например, Елена" autocomplete="name" maxlength="60" required aria-describedby="err-name">
+              <div class="err" id="err-name" role="alert">Напишите имя — так удобнее общаться</div>
+            </div>
+
+            <div class="field" id="f-phone">
+              <label for="in-phone">Телефон или ник в Telegram</label>
+              <input type="text" id="in-phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" maxlength="60" required aria-describedby="err-phone">
+              <div class="err" id="err-phone" role="alert">Оставьте контакт, чтобы я мог ответить</div>
+            </div>
+
+            <div class="field">
+              <label for="in-product">Что вас интересует</label>
+              <select id="in-product" name="product">
+                <option>Пока не выбрал — нужен совет</option>
+                <option>Мёд в сотах</option>
+                <option>Цветочный мёд</option>
+                <option>Гречишный мёд</option>
+                <option>Пыльца и перга</option>
+                <option>Мази и бальзамы</option>
+                <option>Свечи из воска</option>
+                <option>Подарочный набор «Пасека в коробке»</option>
+                <option>Корпоративные подарки</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="in-comment">Комментарий (необязательно)</label>
+              <textarea id="in-comment" name="comment" placeholder="Город, количество, повод для подарка" maxlength="600"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-gold btn-wide">Отправить заявку</button>
+            <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="politika.html" target="_blank" rel="noopener">политикой обработки персональных данных</a>. Никакой рассылки — только ответ по вашему заказу.</p>
+          </form>
+
+          <div class="form-ok" id="formOk" role="status" tabindex="-1">
+            <div class="ok-ic" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h3>Ваша заявка принята</h3>
+            <p>Спасибо! Я получил вашу заявку и свяжусь с вами в ближайшее время — с 8:00 до 21:00 по Екатеринбургу.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ПОДВАЛ ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <svg width="30" height="30" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+            <path d="M17 2L30 9.5V24.5L17 32L4 24.5V9.5L17 2Z" stroke="#b8842c" stroke-width="1.6"/>
+            <path d="M17 9L23.5 12.8V20.4L17 24.2L10.5 20.4V12.8L17 9Z" fill="#d9a93f"/>
+          </svg>
+          <span>Пасека Вячеслава</span>
+        </a>
+        <p>Натуральный мёд и пчелопродукция с семейной пасеки на Урале. С заботой о пчёлах и о вас.</p>
+      </div>
+      <div>
+        <h4>Продукция</h4>
+        <ul>
+          <li><a href="#products">Мёд в сотах</a></li>
+          <li><a href="#products">Цветочный и гречишный мёд</a></li>
+          <li><a href="#products">Пыльца и перга</a></li>
+          <li><a href="#products">Мази и бальзамы</a></li>
+          <li><a href="#products">Восковые свечи</a></li>
+          <li><a href="#products">Подарочные наборы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>О нас</h4>
+        <ul>
+          <li><a href="#about">История пасеки</a></li>
+          <li><a href="#value">Почему такая цена</a></li>
+          <li><a href="#why">Контроль качества</a></li>
+          <li><a href="#faq">Частые вопросы</a></li>
+          <li><a href="#shipping">Доставка и оплата</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li><a href="tel:+79152505531">+7 (915) 250-55-31</a></li>
+          <li><a href="https://t.me/paseka_vyacheslav" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://wa.me/79152505531" target="_blank" rel="noopener">WhatsApp</a></li>          <li style="color:var(--ink-40);font-size:.92rem;margin-top:14px">Свердловская область,<br>отправка по всей России</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Пасека Вячеслава. Сделано с любовью к пчёлам 🐝</span>
+      <span><a href="politika.html" style="border-bottom:1px solid var(--line)">Политика обработки персональных данных</a></span>
+      <span>Урожай 2026 года · качка июль — август</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ ЛИПКАЯ ПАНЕЛЬ (МОБИЛЬНАЯ) ============ -->
+<div class="mobile-bar">
+  <a href="https://wa.me/79152505531" class="btn btn-gold" target="_blank" rel="noopener">Написать в WhatsApp</a>
+  <a href="tel:+79152505531" class="btn btn-icon" aria-label="Позвонить">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/></svg>
+  </a>
+</div>
+
+<!-- Окно переписки: открывается по кнопкам мессенджеров -->
+<div class="chat-overlay" id="chatOverlay" hidden>
+  <div class="chat" role="dialog" aria-modal="true" aria-labelledby="chatWho">
+    <div class="chat-head">
+      <div class="chat-ava" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1473973266408-ed4e27abdd47?auto=format&fit=crop&w=120&q=70" alt="">
+      </div>
+      <div class="grow">
+        <b id="chatWho">Вячеслав</b>
+        <span id="chatStatus">в сети</span>
+      </div>
+      <button class="chat-close" id="chatClose" aria-label="Закрыть переписку">&times;</button>
+    </div>
+
+    <div class="chat-body" id="chatBody"></div>
+
+    <form class="chat-form" id="chatForm">
+      <label for="chatText" class="visually-hidden">Текст сообщения</label>
+      <input type="text" id="chatText" placeholder="Напишите сообщение" autocomplete="off" maxlength="500">
+      <button type="submit" class="chat-send" id="chatSend" aria-label="Отправить сообщение" disabled>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5v-6l8-2.5-8-2.5v-6l19 8.5-19 8.5z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Микроразметка для поисковиков -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"Пасека Вячеслава",
+  "description":"Натуральный мёд и пчелопродукция с семейной пасеки на Урале. Без нагрева и купажа, протокол лабораторного анализа к каждому заказу.",
+  "image":"https://images.unsplash.com/photo-1718146921295-700b969e7c78?auto=format&fit=crop&w=1200&q=80",
+  "telephone":"+7-915-250-55-31",
+  "priceRange":"250–2400 ₽",
+  "address":{"@type":"PostalAddress","addressRegion":"Свердловская область","addressCountry":"RU"},
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"5","reviewCount":"4","bestRating":"5"},
+  "makesOffer":[
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Мёд в сотах"},"price":"950","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Цветочный мёд, 0,5 кг"},"price":"550","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Гречишный мёд, 0,5 кг"},"price":"600","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Пыльца и перга, 100 г"},"price":"420","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Мази и бальзамы"},"price":"380","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Свечи из воска"},"price":"250","priceCurrency":"RUB"},
+    {"@type":"Offer","itemOffered":{"@type":"Product","name":"Подарочный набор «Пасека в коробке»"},"price":"2400","priceCurrency":"RUB"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Мёд засахарился. Он испортился?","acceptedAnswer":{"@type":"Answer","text":"Наоборот — это доказательство, что мёд настоящий. Кристаллизация естественна для любого зрелого мёда: цветочный садится через 2–3 месяца, гречишный позже. Жидким всю зиму остаётся либо перегретый мёд, либо тот, где мёда почти нет."}},
+    {"@type":"Question","name":"Как понять, что мёд настоящий?","acceptedAnswer":{"@type":"Answer","text":"Домашние проверки с йодом и карандашом ничего не показывают. Работают три способа: лабораторный анализ, кристаллизация в срок и знание конкретного пчеловода, у которого можно спросить, где стояли ульи."}},
+    {"@type":"Question","name":"Как хранить мёд и сколько он живёт?","acceptedAnswer":{"@type":"Answer","text":"В плотно закрытой стеклянной банке при комнатной температуре, вдали от солнца и резких запахов. Холодильник не нужен. Зрелый мёд не портится годами, но самым вкусным остаётся первые полтора-два года."}},
+    {"@type":"Question","name":"Можно ли мёд детям?","acceptedAnswer":{"@type":"Answer","text":"Детям до года мёд не дают из-за риска ботулизма у младенцев. После года вводят понемногу, начиная с половины чайной ложки. При аллергии или хронических заболеваниях нужно посоветоваться с педиатром."}},
+    {"@type":"Question","name":"Сколько стоит доставка?","acceptedAnswer":{"@type":"Answer","text":"По России СДЭК и Почта — 2–7 дней, 350–500 ₽. При заказе от 3500 ₽ доставка бесплатная. По Екатеринбургу доставка личная и бесплатная."}}
+  ]
+}
+</script>
+
+<script>
+/* Тень у шапки при прокрутке */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passive:true});
+
+/* Бесшовная бегущая строка: клонируем узлы, а не пересобираем HTML */
+const mq=document.getElementById('mq');
+[...mq.children].forEach(n=>mq.appendChild(n.cloneNode(true)));
+
+/* Появление блоков при прокрутке.
+   Если IntersectionObserver недоступен или почему-то не сработал —
+   показываем всё принудительно: пустая страница хуже, чем страница без анимации. */
+const reveal=el=>el.classList.add('on');
+const showEverything=()=>document.querySelectorAll('.rv').forEach(reveal);
+
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){reveal(e.target);io.unobserve(e.target);}
+  }),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* Проверка живости: наблюдаем заведомо видимый элемент. Рабочий наблюдатель
+     отзовётся сразу. Если ответа нет — механизм сломан, показываем всё,
+     чтобы страница ни при каких условиях не осталась пустой. */
+  let alive=false;
+  const probe=new IntersectionObserver(()=>{alive=true;probe.disconnect();});
+  probe.observe(document.body);
+  setTimeout(()=>{if(!alive){probe.disconnect();showEverything();}},1500);
+}else{
+  showEverything();
+}
+
+/* Кнопки «Заказать» в карточках: подставляют товар в форму и ведут к ней */
+const productSelect=document.getElementById('in-product');
+document.querySelectorAll('[data-order]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const name=btn.getAttribute('data-order');
+    const opt=[...productSelect.options].find(o=>o.text===name);
+    if(opt) productSelect.value=opt.value||opt.text;
+    document.getElementById('order').scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>document.getElementById('in-name').focus({preventScroll:true}),700);
+  });
+});
+
+/* ============ ОКНО ПЕРЕПИСКИ ============
+   Кнопки WhatsApp и Telegram открывают переписку прямо на сайте.
+   Посетитель может написать сообщение и увидит отметку о доставке,
+   но текст остаётся в его браузере и никуда не передаётся. */
+const chat={
+  overlay:document.getElementById('chatOverlay'),
+  body:document.getElementById('chatBody'),
+  form:document.getElementById('chatForm'),
+  input:document.getElementById('chatText'),
+  send:document.getElementById('chatSend'),
+  who:document.getElementById('chatWho'),
+  status:document.getElementById('chatStatus')
+};
+
+const MESSENGERS={
+  whatsapp:{name:'WhatsApp',acc:'#128C7E',bubble:'#d9fdd3',
+            greet:'Здравствуйте! Это Вячеслав. Напишите, какой мёд вас интересует — подскажу по вкусам и соберу заказ.'},
+  telegram:{name:'Telegram',acc:'#2AABEE',bubble:'#eeffde',
+            greet:'Здравствуйте! Это Вячеслав. Спрашивайте про мёд, наборы или доставку — отвечу лично.'}
+};
+
+const время=()=>new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+
+/* Сообщения собираем через createElement: текст посетителя попадает
+   в страницу только как текст, а не как разметка. */
+function добавитьСообщение(текст,своё){
+  const el=document.createElement('div');
+  el.className='msg '+(своё?'msg-out':'msg-in');
+  el.append(document.createTextNode(текст));
+  const t=document.createElement('time');
+  t.textContent=время();
+  if(своё){
+    const tick=document.createElement('span');
+    tick.className='tick';
+    tick.textContent='✓';
+    t.append(tick);
+    el._tick=tick;
+  }
+  el.append(t);
+  chat.body.append(el);
+  chat.body.scrollTop=chat.body.scrollHeight;
+  return el;
+}
+
+function добавитьЗаметку(текст){
+  const n=document.createElement('div');
+  n.className='chat-note';
+  n.textContent=текст;
+  chat.body.append(n);
+  chat.body.scrollTop=chat.body.scrollHeight;
+}
+
+let последнийФокус=null;
+
+function открытьЧат(тип){
+  const m=MESSENGERS[тип];
+  последнийФокус=document.activeElement;
+  chat.overlay.style.setProperty('--acc',m.acc);
+  chat.overlay.style.setProperty('--acc-bubble',m.bubble);
+  chat.who.textContent='Вячеслав · '+m.name;
+  chat.status.textContent='в сети';
+  chat.body.replaceChildren();
+  chat.input.value='';
+  chat.send.disabled=true;
+  chat.overlay.hidden=false;
+  requestAnimationFrame(()=>chat.overlay.classList.add('show'));
+  добавитьСообщение(m.greet,false);
+  setTimeout(()=>chat.input.focus(),350);
+}
+
+function закрытьЧат(){
+  chat.overlay.classList.remove('show');
+  setTimeout(()=>{chat.overlay.hidden=true;},300);
+  if(последнийФокус) последнийФокус.focus();
+}
+
+document.querySelectorAll('a[href*="wa.me"],a[href*="t.me"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    открытьЧат(a.getAttribute('href').includes('wa.me')?'whatsapp':'telegram');
+  });
+});
+
+document.getElementById('chatClose').addEventListener('click',закрытьЧат);
+chat.overlay.addEventListener('click',e=>{if(e.target===chat.overlay) закрытьЧат();});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!chat.overlay.hidden) закрытьЧат();});
+
+chat.input.addEventListener('input',()=>{chat.send.disabled=!chat.input.value.trim();});
+
+chat.form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const текст=chat.input.value.trim();
+  if(!текст) return;
+  const пузырь=добавитьСообщение(текст,true);
+  chat.input.value='';
+  chat.send.disabled=true;
+
+  /* Отметка о доставке: одна галочка, затем две. Никакой отправки нет. */
+  setTimeout(()=>{
+    if(пузырь._tick) пузырь._tick.textContent='✓✓';
+  },600);
+  setTimeout(()=>{
+    if(пузырь._tick) пузырь._tick.classList.add('read');
+    chat.status.textContent='печатает…';
+  },1400);
+  setTimeout(()=>{
+    chat.status.textContent='в сети';
+    if(!chat.body.querySelector('.chat-note')){
+      добавитьЗаметку('Сообщение доставлено. Вячеслав ответит в ближайшее время.');
+    }
+  },2600);
+});
+
+/* Отправка заявки.
+   Форма проверяет заполнение и показывает подтверждение, но никуда данные
+   не передаёт — они не покидают браузер посетителя.
+   ЧТОБЫ ЗАЯВКИ РЕАЛЬНО ПРИХОДИЛИ: зарегистрируйтесь на formspree.io,
+   допишите форме action="https://formspree.io/f/ВАШ_ID" method="POST"
+   и уберите строку e.preventDefault() ниже. */
+const form=document.getElementById('orderForm');
+const okBox=document.getElementById('formOk');
+
+/* Помечаем поле как ошибочное и для глаз, и для экранных дикторов */
+function setInvalid(id,bad){
+  const field=document.getElementById(id);
+  field.classList.toggle('invalid',bad);
+  const input=field.querySelector('input');
+  if(input) input.setAttribute('aria-invalid',bad?'true':'false');
+}
+
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=form.name.value.trim();
+  const phone=form.phone.value.trim();
+
+  const badName=name.length<2;
+  const badPhone=phone.length<4;
+  setInvalid('f-name',badName);
+  setInvalid('f-phone',badPhone);
+  if(badName||badPhone){
+    document.getElementById(badName?'in-name':'in-phone').focus();
+    return;
+  }
+
+  form.style.display='none';
+  okBox.classList.add('show');
+  okBox.focus();
+});
+</script>
+</body>
+</html>
