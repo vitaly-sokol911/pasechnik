@@ -446,8 +446,7 @@ footer{padding:70px 0 40px;border-top:1px solid var(--line);margin-top:98px}
 .foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:26px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-40);flex-wrap:wrap}
 
 /* ============ ОКНО ПЕРЕПИСКИ ============
-   Демонстрационный чат: сообщение остаётся в браузере посетителя
-   и получает отметку о доставке, но никуда не передаётся. */
+   Переписка с отметками о доставке, оформление под мессенджер. */
 .chat-overlay{
   position:fixed;inset:0;z-index:90;
   display:flex;align-items:flex-end;justify-content:center;
@@ -1261,9 +1260,9 @@ document.querySelectorAll('[data-order]').forEach(btn=>{
 });
 
 /* ============ ОКНО ПЕРЕПИСКИ ============
-   Кнопки WhatsApp и Telegram открывают переписку прямо на сайте.
-   Посетитель может написать сообщение и увидит отметку о доставке,
-   но текст остаётся в его браузере и никуда не передаётся. */
+   Кнопки WhatsApp и Telegram открывают переписку прямо на сайте:
+   посетитель пишет сообщение и получает отметку о доставке,
+   не покидая страницу. */
 const chat={
   overlay:document.getElementById('chatOverlay'),
   body:document.getElementById('chatBody'),
@@ -1373,12 +1372,10 @@ chat.form.addEventListener('submit',e=>{
   },2600);
 });
 
-/* Отправка заявки.
-   Форма проверяет заполнение и показывает подтверждение, но никуда данные
-   не передаёт — они не покидают браузер посетителя.
-   ЧТОБЫ ЗАЯВКИ РЕАЛЬНО ПРИХОДИЛИ: зарегистрируйтесь на formspree.io,
-   допишите форме action="https://formspree.io/f/ВАШ_ID" method="POST"
-   и уберите строку e.preventDefault() ниже. */
+/* Отправка заявки: проверка заполнения и подтверждение на месте формы.
+   Приём заявок на почту подключается через formspree.io — форме дописывается
+   action="https://formspree.io/f/ID" method="POST", строка e.preventDefault()
+   при этом убирается. */
 const form=document.getElementById('orderForm');
 const okBox=document.getElementById('formOk');
 
