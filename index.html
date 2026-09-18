@@ -36,6 +36,17 @@
 <!-- Помечаем, что JS доступен: только тогда прячем блоки до анимации появления -->
 <script>document.documentElement.classList.add('js');</script>
 
+<!-- Защита от кликджекинга. Обычно её даёт заголовок X-Frame-Options,
+     но GitHub Pages не позволяет задавать свои заголовки, поэтому
+     проверяем вложенность из скрипта: если страницу открыли внутри
+     чужого фрейма — выбираемся на верхний уровень. -->
+<script>
+if(self!==top){
+  try{ top.location=self.location; }
+  catch(e){ document.documentElement.style.display='none'; }
+}
+</script>
+
 <style>
 /* ============ ТОКЕНЫ ============ */
 :root{
