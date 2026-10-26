@@ -203,5 +203,81 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:.85rem;col
   </div>
 </footer>
 
+<!-- contact-guard -->
+<style>
+.cg-back{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,12,20,.62)}
+.cg-back.is-open{display:flex}
+.cg-card{position:relative;width:100%;max-width:400px;padding:28px 24px 24px;border-radius:14px;background:#fff;color:#1a1d24;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.cg-card h3{margin:0 0 6px;font-size:20px;font-weight:700;color:#1a1d24}
+.cg-card p{margin:0 0 16px;color:#4a5060;font-size:15px}
+.cg-card input{box-sizing:border-box;width:100%;padding:12px 14px;border:1px solid #c9ced8;border-radius:10px;font:inherit;color:#1a1d24;background:#fff}
+.cg-card input:focus{outline:2px solid #2b4fb5;outline-offset:1px}
+.cg-card button.cg-go{width:100%;margin-top:12px;padding:13px 16px;border:0;border-radius:10px;background:#1a1d24;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.cg-card button.cg-go:hover{background:#2b3140}
+.cg-x{position:absolute;top:8px;right:10px;width:36px;height:36px;border:0;border-radius:8px;background:transparent;color:#4a5060;font-size:22px;line-height:1;cursor:pointer}
+.cg-err{display:none;margin:8px 0 0;color:#b3261e;font-size:14px}
+.cg-ok{display:none;text-align:center}
+.cg-ok .cg-tick{width:48px;height:48px;margin:0 auto 12px;border-radius:50%;background:#e3f4e7;color:#1d7a35;font-size:26px;line-height:48px}
+.cg-card.is-done .cg-form{display:none}
+.cg-card.is-done .cg-ok{display:block}
+</style>
+<div class="cg-back" id="cg-back" role="dialog" aria-modal="true" aria-labelledby="cg-title" hidden>
+  <div class="cg-card" id="cg-card">
+    <button type="button" class="cg-x" id="cg-x" aria-label="Закрыть">&times;</button>
+    <form class="cg-form" id="cg-form" novalidate>
+      <h3 id="cg-title">Заказать звонок</h3>
+      <p id="cg-text">Оставьте номер телефона — перезвоним в ближайшее время.</p>
+      <input type="tel" id="cg-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00" aria-label="Номер телефона">
+      <p class="cg-err" id="cg-err">Укажите номер телефона, чтобы мы могли перезвонить.</p>
+      <button type="submit" class="cg-go">Перезвоните мне</button>
+    </form>
+    <div class="cg-ok" id="cg-ok" role="status">
+      <div class="cg-tick" aria-hidden="true">&#10003;</div>
+      <h3>Заявка отправлена</h3>
+      <p>Спасибо! Мы перезвоним вам в ближайшее время.</p>
+      <button type="button" class="cg-go" id="cg-close">Закрыть</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var back = document.getElementById('cg-back'), card = document.getElementById('cg-card');
+  var form = document.getElementById('cg-form'), phone = document.getElementById('cg-phone');
+  var err = document.getElementById('cg-err'), title = document.getElementById('cg-title');
+  var text = document.getElementById('cg-text'), last = null;
+  back.hidden = false;
+  function open(kind) {
+    var call = kind === 'tel';
+    title.textContent = call ? 'Заказать звонок' : 'Написать нам';
+    text.textContent = call ? 'Оставьте номер телефона — перезвоним в ближайшее время.'
+                            : 'Оставьте номер телефона — свяжемся с вами в удобном мессенджере или перезвоним.';
+    card.classList.remove('is-done'); err.style.display = 'none'; phone.value = '';
+    last = document.activeElement; back.classList.add('is-open');
+    setTimeout(function () { phone.focus(); }, 30);
+  }
+  function close() { back.classList.remove('is-open'); if (last && last.focus) last.focus(); }
+  document.addEventListener('click', function (e) {
+    if (back.contains(e.target)) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    var kind = /^tel:/i.test(h) ? 'tel' : (/^mailto:/i.test(h) || /^https?:\/\/(wa\.me|api\.whatsapp\.com|t\.me|telegram\.me)\b/i.test(h)) ? 'msg' : '';
+    if (!kind) return;
+    e.preventDefault(); e.stopPropagation(); open(kind);
+  }, true);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (phone.value.replace(/\D/g, '').length < 10) { err.style.display = 'block'; phone.focus(); return; }
+    card.classList.add('is-done');
+    document.getElementById('cg-close').focus();
+  });
+  phone.addEventListener('input', function () { err.style.display = 'none'; });
+  document.getElementById('cg-x').addEventListener('click', close);
+  document.getElementById('cg-close').addEventListener('click', close);
+  back.addEventListener('click', function (e) { if (e.target === back) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && back.classList.contains('is-open')) close(); });
+})();
+</script>
+<!-- /contact-guard -->
 </body>
 </html>
